@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue.js CRUD Series using PHP/MySQLi</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+    <style type="text/css">
+      html {
+        height: auto;
+      }
+ 
+      body {
+
+        height: auto;
+
+        color: black;
+        background-color: white;
+        background-image: url(background.jpg);
+        background-repeat: repeat;
+      }
+
+      a {
+        animation-duration: 400ms;
+        animation-name: blink;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      @keyframes blink {
+        from {
+          opacity: 1;
+        }
+
+        to {
+          opacity: 0;
+        }
+      }
+
+      img {
+
+    background-size: contain ;
+ opacity: 0.7;
+      }
+      .bgwc { 
+        width: 4vw;
+        height: 4vh;
+    /* The image used */
+    background-image: url("okay.png");
+        background-repeat: no-repeat;
+    background-size: contain ;
+     background-position: 25% 25%; 
+
+
+}
+      .bgchantier { 
+        width: 4vw;
+        height: 4vh;
+    /* The image used */
+    background-image: url("nettoyageencours.jpg");
+        background-repeat: no-repeat;
+ background-size: contain ;
+     background-position: 25% 25%; 
+
+}
+     .bgwait { 
+        width: 4vw;
+        height: 4vh;
+    /* The image used */
+    background-image: url("flash.gif");
+        background-position: center; 
+        background-repeat: no-repeat;
+ background-size: contain ;
+}
+     .bgwsign { 
+        width: 25vw;
+        height: 25vh;
+    /* The image used */
+    background-image: url("restroom42-sign.png");
+        background-position: center; 
+        background-repeat: no-repeat;
+ background-size: contain ;
+
+}
+      h1 {
+        text-align: center;
+        color: white;
+        font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+        font-size: x-large;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: 500;
+
+      }
+
+      table {
+        width: 100%;
+        height: auto;
+        padding: 0;
+        border-collapse: collapse;
+        table-layout: fixed;
+        margin-right: 0;
+        margin-left: 0;
+      }
+
+      td,
+      th {
+       width: 50%;
+      height: 15vh; 
+  /*    width: 40 px;
+    height:25px;*/
+        min-height: 25px;
+        margin: 0;
+
+        padding: 0;
+        text-align: center;
+        word-break: keep-all;
+        position: relative;
+        border: 1px solid black;
+        overflow:hidden;
+        text-align: center;
+        vertical-align: middle;  
+        opacity: 0.7;
+
+        font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+      }
+        .cop{
+                 color: white;
+    font-family: monospace;
+    font-style: italic;
+    text-align: right;
+  }
+    </style>
+<body>
+<div class="container">
+	<h1 ><img src="restroom42-sign.png" alt="Restroom42" width="75vw"> </h1>
+		<div id="members">
+  			 <span v-for="(itemp,n) in 4"> 
+
+         </br> EtageData {{ n }} {{listeEtage[n]}} </br> 
+          {{EtageData[listeEtage[n]]}} </br> 
+          {{CountEtageparvotant[listeEtage[n]][1]}} </br> 
+            {{ "T" + listeEtage[n] }}
+
+         <p v-if="CountEtageparvotant[listeEtage[n]]">
+              <tr v-if="CountEtageparvotant[listeEtage] && CountEtageparvotant[listeEtage][0]" class="bgchantier" >
+                <TD >
+                  <font size=3vw  style="font-weight:bold;" style="text-align:left;" color="red">Toilet unavailable {{listeEtage[n]}} for {{CountEtageparvotant["T" + listeEtage[n]][0]}} Minutes<br>
+                  </font>
+              <tr v-else-if="CountEtageparvotant[listeEtage] && CountEtageparvotant[listeEtage][0]" class="bgwc">
+                <TD >
+                  <font  style="font-weight:bold;" style="text-align:center;" size=5vw  color="red">{{listeEtage[n]}}<br></font>'
+                </button>
+                <button v-bind:id="listeEtage[n]" onclick="poll">
+                <font v-if="WaitVotant[listeEtage[n]]" size=2vh   color="red"  >you have been waiting for 
+                  {{WaitVotant[listeEtage[n]]}}  <br>press here if you wait for the toilet 5 minutes more</font>
+                <font v-else-if="WaitVotant[listeEtage[n]] < 01"    size=2vh   color="green">press here <br>if you wait for the toilet 5 minutes</font>
+                </button>
+              </td>
+              <td width="70%" >
+                <TABLE v-if="EtageData[listeEtage[n]] > 0" cellspacing="0" width="100%">
+
+                  <TR align="center"  COLSPAN=06> 
+                  <TR align="center"  v-bind:COLSPAN="EtageData[listeEtage[n]]"> 
+                    <div >
+                      <font  v-if="EtageData[listeEtage[n]] && EtageData[listeEtage[n]] < 2" size=3vw color="red">{{EtageData[listeEtage[n]]}} person waiting<br>
+                      </font>
+                      <font  v-else-if="EtageData[listeEtage[n]] && EtageData[listeEtage[n]] < 2" size=3vw color="red">{{EtageData[listeEtage[n]]}} people waiting<br>
+                      </font>
+                    </div>
+                  </TR>
+              <TR>
+
+              <span v-for="x in 5"> 
+                  <TD v-if="CountEtageparvotant[listeEtage[n]] && CountEtageparvotant[listeEtage[n]][x]" > <font class="bgwait" size=2vh color="black"  style="font-weight:bold;" style="text-align:center;" style="vertical-align:center">
+                    {{CountEtageparvotant[listeEtage[n]][x]}}</font></TD> 
+                  <TD v-else-if="CountEtageparvotant[listeEtage[n]] && CountEtageparvotant[listeEtage[n]][x]" ></TD> 
+              
+              <TD v-if="EtageData[listeEtage[n]] && EtageData[listeEtage[n]] > 5" ><font class="bgwait" size=4vh color="black"  style="font-weight:bold;" style="text-align:center;" style="vertical-align:center">++</font></TD> 
+              <TD v-else-if="EtageData[listeEtage[n]] && EtageData[listeEtage[n]] > 5" ></TD> 
+            </span>
+            </TR></TABLE>
+            <div v-if="EtageData[listeEtage[n]] = 0" >
+              <font size=6vw color="#DC143C"><a>Vacancy</a></font>
+            </div>
+          </td></tr>
+        </p>
+			   </span>
+    </div>
+</div>
+<footer>
+	<p class="cop">&#169;olepicar,mduclos,krashid-</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="axios.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
