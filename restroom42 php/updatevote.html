@@ -1,0 +1,13 @@
+public function updateVote($pollVoteData) {
+if(!isset($pollVoteData['pollid']) || isset($_COOKIE[$pollVoteData['pollid']])) {
+return false;
+}
+$pollVoteDetails = $this->getVotes($pollVoteData['pollid']);
+$votes = explode("||||", $pollVoteDetails['votes']);
+$votes[$pollVoteData['pollOptions']] += 1;
+implode("||||",$votes);
+$pollVoteDetails['voters'] += 1;
+$sqlQuery = "UPDATE ".$this->pollTable." set votes = '".implode("||||",$votes)."' , voters = '".$pollVoteDetails['voters']."' where pollid = '".$pollVoteData['pollid']."'";
+mysqli_query($this->dbConnect, $sqlQuery);
+return true;
+}
